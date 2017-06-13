@@ -55,38 +55,38 @@ cp -R ../../content/api_media/*.jpg ../../reference/images/
 cp -R ../../content/api_media/*.gif ../../reference/images/
 cp -R ../../content/api_media/*.png ../../reference/images/
 
-echo "[REFERENCE GENERATOR] Updating local reference paths..."
-cp -R ../../css	 ../../distribution/
-cp -R ../../javascript	 ../../distribution/
-rm -rf ../../distribution/css/fonts/TheSerif_B4_Bold_.eot
-rm -rf ../../distribution/css/fonts/TheSerif_B4_Bold_.woff
-rm -rf ../../distribution/css/fonts/TheSerif_B4_Italic.eot
-rm -rf ../../distribution/css/fonts/TheSerif_B4_Italic.woff
-rm -rf ../../distribution/css/fonts/TheSerif_B4_Plain_.eot
-rm -rf ../../distribution/css/fonts/TheSerif_B4_Plain_.woff
-mkdir -p ../../distribution/images
-cp -R ../../content/api_media/*.jpg ../../distribution/images/
-cp -R ../../content/api_media/*.gif ../../distribution/images/
-cp -R ../../content/api_media/*.png ../../distribution/images/
+#echo "[REFERENCE GENERATOR] Updating local reference paths..."
+#cp -R ../../css	 ../../distribution/
+#cp -R ../../javascript	 ../../distribution/
+#rm -rf ../../distribution/css/fonts/TheSerif_B4_Bold_.eot
+#rm -rf ../../distribution/css/fonts/TheSerif_B4_Bold_.woff
+#rm -rf ../../distribution/css/fonts/TheSerif_B4_Italic.eot
+#rm -rf ../../distribution/css/fonts/TheSerif_B4_Italic.woff
+#rm -rf ../../distribution/css/fonts/TheSerif_B4_Plain_.eot
+#rm -rf ../../distribution/css/fonts/TheSerif_B4_Plain_.woff
+#mkdir -p ../../distribution/images
+#cp -R ../../content/api_media/*.jpg ../../distribution/images/
+#cp -R ../../content/api_media/*.gif ../../distribution/images/
+#cp -R ../../content/api_media/*.png ../../distribution/images/
 
 
 # COPY IMAGES
 echo "[REFERENCE GENERATOR] Copying images to web reference..."
 # copy images for web reference isn't needed because they are already on server
 
-# copy images for local reference
-echo "[REFERENCE GENERATOR] Copying images to local reference..."
-mkdir -p ../../distribution/img
-chmod 755 ../../distribution/img
-mkdir -p ../../distribution/img/about/
-cp ../../favicon.ico ../../distribution/img/
-cp ../../img/processing-web.png ../../distribution/img/
-cp ../../img/processing-logo.svg ../../distribution/img/
-cp ../../img/processing-logo.png ../../distribution/img/
-cp ../../img/search.png ../../distribution/img/
-cp ../../img/search.svg ../../distribution/img/
-cp ../../img/about/people-header.gif ../../distribution/img/about/
-cp ../../content/api_en/images/header.gif ../../distribution/img/
+## copy images for local reference
+#echo "[REFERENCE GENERATOR] Copying images to local reference..."
+#mkdir -p ../../distribution/img
+#chmod 755 ../../distribution/img
+#mkdir -p ../../distribution/img/about/
+#cp ../../favicon.ico ../../distribution/img/
+#cp ../../img/processing-web.png ../../distribution/img/
+#cp ../../img/processing-logo.svg ../../distribution/img/
+#cp ../../img/processing-logo.png ../../distribution/img/
+#cp ../../img/search.png ../../distribution/img/
+#cp ../../img/search.svg ../../distribution/img/
+#cp ../../img/about/people-header.gif ../../distribution/img/about/
+#cp ../../content/api_en/images/header.gif ../../distribution/img/
 
 
 # GENERATE OTHER REFERENCE CONTENT

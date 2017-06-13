@@ -8,7 +8,7 @@ function out($output) {
 	error_log($output);
 }
 
-$JAVA_HOME = "/usr/local/jdk1.5.0_15";
+$JAVA_HOME = "/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk";
 $PATH = "$JAVA_HOME/bin:/usr/local/bin:/usr/bin:/bin";
 putenv("JAVA_HOME=$JAVA_HOME");
 putenv("PATH=$PATH");
@@ -18,7 +18,7 @@ $benchmark_start = microtime_float();
 $path = BASEDIR;  //define('BASEDIR',       dirname(__FILE__).'/');
 
 
-
+/*
 // Pull latest processing/processing from GitHub
 // Note that the Reference generate script needs this,
 // just in case someone changed anything in the .java source files.
@@ -42,7 +42,7 @@ $shell_output = shell_exec("cd $soundRepoPath && /usr/bin/git pull https://githu
 
 out($shell_output);
 out("---------------");
-
+*/
 
 
 // Pull latest processing/processing-docs from GitHub
@@ -54,15 +54,15 @@ out("---------------");
 //out("---------------");
 
 
-
+/*
 //Build reference files
 out("Rebuilding reference files...");
 $referencepath = $path . "java_generate/ReferenceGenerator/";
 $shell_output = shell_exec("cd $referencepath && ./processingrefBuild.sh 2>&1");
 out($shell_output);
+*/
 
-
-
+/*
 // Compress distribution into a ZIP, so it can be rolled into an IDE build.
 // processing/processing/java/
 out("Compressing distribution directory...");
@@ -78,7 +78,7 @@ out($shell_output);
 shell_exec("rm -r $mainRepoPath/build/shared/reference/ 2>&1");
 //shell_exec("rm -r $mainRepoPath/java/reference/ 2>&1");  // Add 10 Nov 2016 - CR
 out("Done compressing!");
-
+*/
 
 $benchmark_end = microtime_float();
 $execution_time = round($benchmark_end - $benchmark_start, 4);
