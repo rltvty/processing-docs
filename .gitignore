@@ -1,25 +1,4 @@
 # Ignore this stuff
 .DS_Store
-reference/**/* 
-distribution/**/* 
-learning/**/*
-css/**/*
-content/static/libraries.html
-content/static/tools.html
-books/
-copyright.html
-distribution/
-handbook/
-reference/
-/shop/
-overview/
-people/
-robots.txt
-/tutorials/ # Ignore the folder at the root, but not inside "content"
-foundation/
-exhibition/
-/examples/ # Ignore the folder at the root, but not inside "content"
-about/
-contrib_generate/contribs.txt # File now built on the server side; don't need to track here
-contrib_generate/contributions.txt # File now built on the server side; don't need to track here
-*~
+.idea
+
