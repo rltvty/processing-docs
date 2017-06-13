@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+  docs:
+      image: eboraas/apache-php
+      ports:
+          - "80:80"
+      volumes:
+          - ./:/var/www/html
