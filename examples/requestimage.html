@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>RequestImage \ Examples \ Processing.org</title>
+		
+		<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="Author" content="Processing Foundation" />
+		<meta name="Publisher" content="Processing Foundation" />
+		<meta name="Keywords" content="Processing, Sketchbook, Programming, Coding, Code, Art, Design" />
+		<meta name="Description" content="Processing is a flexible software sketchbook and a language for learning how to code within the context of the visual arts. Since 2001, Processing has promoted software literacy within the visual arts and visual literacy within technology." />
+		<meta name="Copyright" content="All contents copyright the Processing Foundation, Ben Fry, Casey Reas, and the MIT Media Laboratory" />
+	    
+	    <script src="../javascript/modernizr-2.6.2.touch.js" type="text/javascript"></script>
+		<link href="../css/style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body id="Examples" onload="" >
+		
+		<!-- ==================================== PAGE ============================ --> 
+		<div id="container">
+	
+			<!-- ==================================== HEADER ============================ --> 
+			<div id="ribbon">
+				<ul class="left">
+					<li class="highlight"><a href="http://processing.org/">Processing</a></li>
+					<li><a href="http://p5js.org/">p5.js</a></li>
+					<li><a href="http://py.processing.org/">Processing.py</a></li>
+					<li><a href="http://android.processing.org/">Processing for Android</a></li>
+				</ul>
+				<ul class="right">
+					<li><a href="https://processingfoundation.org/">Processing Foundation</a></li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<div id="header">
+				<a href="/" title="Back to the Processing cover."><div class="processing-logo no-cover" alt="Processing cover"></div></a>
+				<form name="search" action="//www.google.com/search" method="get">
+				<!--<label>Search processing.org</label>-->
+				       <p><input type="hidden" name="as_sitesearch" value="processing.org" />
+				       <input type="text" name="as_q" value="" size="20" class="text" /> 
+						<input type="submit" value=" " /></p>
+				</form>
+			</div> 
+			<a id="TOP" name="TOP"></a>
+			
+			<!-- ==================================== NAVIGATION ============================ -->
+						<div id="navigation">
+				<div class="navBar" id="mainnav_noSub">
+					<a href="/">Cover</a><br><br>
+					<a href="/download/">Download</a><br>
+					<a href="/download/support.html">Donate</a><br><br>
+					<a href="/exhibition/">Exhibition</a><br><br>
+					<a href="/reference/">Reference</a><br>
+					<a href="/reference/libraries/">Libraries</a><br>
+					<a href="/reference/tools/">Tools</a><br>
+					<a href="/reference/environment/">Environment</a><br><br>
+					<a href="/tutorials/">Tutorials</a><br>
+					<a href="/examples/" class="active">Examples</a><br>
+					<a href="/books/">Books</a><br>
+					<a href="/handbook/">Handbook</a><br><br />
+					<a href="/overview/">Overview</a><br> 
+					<a href="/people/">People</a><br><br>
+					<a href="/shop/">Shop</a><br><br>
+					<a href="http://forum.processing.org"class="outward"><span>&raquo;</span>Forum</a><br> 
+					<a href="https://github.com/processing"class="outward"><span>&raquo;</span>GitHub</a><br> 
+					<a href="https://github.com/processing/processing/issues?state=open"class="outward"><span>&raquo;</span>Issues</a><br> 
+					<a href="https://github.com/processing/processing/wiki/"class="outward"><span>&raquo;</span>Wiki</a><br> 
+					<a href="https://github.com/processing/processing/wiki/FAQ"class="outward"><span>&raquo;</span>FAQ</a><br> 
+					<a href="https://twitter.com/processingOrg"class="outward"><span>&raquo;</span>Twitter</a><br> 
+					<a href="https://www.facebook.com/page.processing"class="outward"><span>&raquo;</span>Facebook</a><br> 
+					<a href="https://medium.com/@ProcessingOrg"class="outward"><span>&raquo;</span>Medium</a><br> 
+				</div>
+			</div>
+
+
+			<!-- ==================================== CONTENT ============================ -->
+			<div class="content">
+			
+			 
+<div class="examples-nav"><a href="/examples/"><img src="/img/back_off.gif" alt="Back to List" /> <span class="back-to">Back To List</span></a>
+</div>
+
+<p class="ref-notice">
+	This example is for Processing 3+. If you have a previous version, use the examples included with your software. If you see any errors or have suggestions, <a href="https://github.com/processing/processing-docs/issues?state=open">please let us know</a>.
+</p>
+<script src="../javascript/p5.min.js" type="text/javascript"></script>
+<script src="../javascript/p5.dom.min.js" type="text/javascript"></script>
+
+
+<div class="example">
+<div id="p5container"></div><script type="text/javascript">/**
+ * Request Image
+ * by Ira Greenberg ( From Processing for Flash Developers). 
+ * 
+ * Shows how to use the requestImage() function with preloader animation. 
+ * The requestImage() function loads images on a separate thread so that 
+ * the sketch does not freeze while they load. It's very useful when you are
+ * loading large images. 
+ * 
+ * These images are small for a quick download, but try it with your own huge 
+ * images to get the full effect. 
+ */
+
+var imgCount = 12;
+var imgs = new Array(imgCount);
+var imgW;
+
+// Keeps track of loaded images (true or false)
+var loadStates = new Array(imgCount);
+
+// For loading animation
+var loaderX, loaderY, theta;
+
+function setup() {
+  var canvas = createCanvas(640, 360);
+  canvas.parent("p5container");
+  imgW = width/imgCount;
+
+  // Load images asynchronously
+  for (var i = 0; i < imgCount; i++){
+    imageLoader("PT_anim"+nf(i, 4)+".gif",i);
+  }
+}
+
+function imageLoader(path,num) {
+  loadImage(path, function(img) {
+    imgs[num] = img;
+    loadStates[num] = true;
+  });
+}
+
+function draw(){
+  background(0);
+  
+  // Start loading animation
+  runLoaderAni();
+  
+  // When all images are loaded draw them to the screen
+  if (checkLoadStates()){
+    drawImages();
+  }
+}
+
+function drawImages() {
+  var y = (height - imgs[0].height) / 2;
+  for (var i = 0; i < imgs.length; i++){
+    image(imgs[i], width/imgs.length*i, y, imgs[i].height, imgs[i].height);
+  }
+}
+
+// Loading animation
+function runLoaderAni(){
+  // Only run when images are loading
+  if (!checkLoadStates()){
+    ellipse(loaderX, loaderY, 10, 10);
+    loaderX += 2;
+    loaderY = height/2 + sin(theta) * (height/8);
+    theta += PI/22;
+    // Reposition ellipse if it goes off the screen
+    if (loaderX > width + 5){
+      loaderX = -5;
+    }
+  }
+}
+
+// Return true when all images are loaded - no false values left in array 
+function checkLoadStates(){
+  for (var i = 0; i < imgs.length; i++){
+    if (!loadStates[i]){
+      return false;
+    } 
+  }
+  return true;
+}
+
+
+
+
+
+
+</script>
+<p class="doc"><strong>Request Image</strong> by Ira Greenberg ( From Processing for Flash Developers). <br />
+<br />
+ Shows how to use the requestImage() function with preloader animation. The requestImage() function loads images on a separate thread so that the sketch does not freeze while they load. It's very useful when you are loading large images. <br />
+<br />
+ These images are small for a quick download, but try it with your own huge images to get the full effect.</p>
+
+<pre class="code">
+
+int imgCount = 12;
+PImage[] imgs = new PImage[imgCount];
+float imgW;
+
+// Keeps track of loaded images (true or false)
+boolean[] loadStates = new boolean[imgCount];
+
+// For loading animation
+float loaderX, loaderY, theta;
+
+void setup() {
+  size(640, 360);
+  imgW = width/imgCount;
+
+  // Load images asynchronously
+  for (int i = 0; i &lt; imgCount; i++){
+    imgs[i] = requestImage(&quot;PT_anim&quot;+nf(i, 4)+&quot;.gif&quot;);
+  }
+}
+
+void draw(){
+  background(0);
+  
+  // Start loading animation
+  runLoaderAni();
+  
+  for (int i = 0; i &lt; imgs.length; i++){
+    // Check if individual images are fully loaded
+    if ((imgs[i].width != 0) &amp;&amp; (imgs[i].width != -1)){
+      // As images are loaded set true in boolean array
+      loadStates[i] = true;
+    }
+  }
+  // When all images are loaded draw them to the screen
+  if (checkLoadStates()){
+    drawImages();
+  }
+}
+
+void drawImages() {
+  int y = (height - imgs[0].height) / 2;
+  for (int i = 0; i &lt; imgs.length; i++){
+    image(imgs[i], width/imgs.length*i, y, imgs[i].height, imgs[i].height);
+  }
+}
+
+// Loading animation
+void runLoaderAni(){
+  // Only run when images are loading
+  if (!checkLoadStates()){
+    ellipse(loaderX, loaderY, 10, 10);
+    loaderX += 2;
+    loaderY = height/2 + sin(theta) * (height/8);
+    theta += PI/22;
+    // Reposition ellipse if it goes off the screen
+    if (loaderX &gt; width + 5){
+      loaderX = -5;
+    }
+  }
+}
+
+// Return true when all images are loaded - no false values left in array 
+boolean checkLoadStates(){
+  for (int i = 0; i &lt; imgs.length; i++){
+    if (loadStates[i] == false){
+      return false;
+    } 
+  }
+  return true;
+}
+
+
+
+
+
+
+</pre>
+
+
+</div>
+
+
+			
+			</div>
+
+			<!-- ==================================== FOOTER ============================ --> 
+  			<div id="footer">
+    			<div id="copyright">Processing was initiated by <a href="http://benfry.com/">Ben Fry</a> and <a href="http://reas.com">Casey Reas</a>. It is developed by a <a href="/people/">small team of volunteers</a>.</div> 
+    			<div id="colophon">
+
+                    <a href="/copyright.html">&copy; Info</a>
+
+                </div>
+  			</div>
+  			
+		</div>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="../javascript/jquery-1.9.1.min.js"><\/script>')</script>
+		<script src="../javascript/site.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-40016511-1']);
+		  _gaq.push(['_setDomainName', 'processing.org']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+	</body>
+</html>

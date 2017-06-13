@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>LoadFile2 \ Examples \ Processing.org</title>
+		
+		<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="Author" content="Processing Foundation" />
+		<meta name="Publisher" content="Processing Foundation" />
+		<meta name="Keywords" content="Processing, Sketchbook, Programming, Coding, Code, Art, Design" />
+		<meta name="Description" content="Processing is a flexible software sketchbook and a language for learning how to code within the context of the visual arts. Since 2001, Processing has promoted software literacy within the visual arts and visual literacy within technology." />
+		<meta name="Copyright" content="All contents copyright the Processing Foundation, Ben Fry, Casey Reas, and the MIT Media Laboratory" />
+	    
+	    <script src="../javascript/modernizr-2.6.2.touch.js" type="text/javascript"></script>
+		<link href="../css/style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body id="Examples" onload="" >
+		
+		<!-- ==================================== PAGE ============================ --> 
+		<div id="container">
+	
+			<!-- ==================================== HEADER ============================ --> 
+			<div id="ribbon">
+				<ul class="left">
+					<li class="highlight"><a href="http://processing.org/">Processing</a></li>
+					<li><a href="http://p5js.org/">p5.js</a></li>
+					<li><a href="http://py.processing.org/">Processing.py</a></li>
+					<li><a href="http://android.processing.org/">Processing for Android</a></li>
+				</ul>
+				<ul class="right">
+					<li><a href="https://processingfoundation.org/">Processing Foundation</a></li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<div id="header">
+				<a href="/" title="Back to the Processing cover."><div class="processing-logo no-cover" alt="Processing cover"></div></a>
+				<form name="search" action="//www.google.com/search" method="get">
+				<!--<label>Search processing.org</label>-->
+				       <p><input type="hidden" name="as_sitesearch" value="processing.org" />
+				       <input type="text" name="as_q" value="" size="20" class="text" /> 
+						<input type="submit" value=" " /></p>
+				</form>
+			</div> 
+			<a id="TOP" name="TOP"></a>
+			
+			<!-- ==================================== NAVIGATION ============================ -->
+						<div id="navigation">
+				<div class="navBar" id="mainnav_noSub">
+					<a href="/">Cover</a><br><br>
+					<a href="/download/">Download</a><br>
+					<a href="/download/support.html">Donate</a><br><br>
+					<a href="/exhibition/">Exhibition</a><br><br>
+					<a href="/reference/">Reference</a><br>
+					<a href="/reference/libraries/">Libraries</a><br>
+					<a href="/reference/tools/">Tools</a><br>
+					<a href="/reference/environment/">Environment</a><br><br>
+					<a href="/tutorials/">Tutorials</a><br>
+					<a href="/examples/" class="active">Examples</a><br>
+					<a href="/books/">Books</a><br>
+					<a href="/handbook/">Handbook</a><br><br />
+					<a href="/overview/">Overview</a><br> 
+					<a href="/people/">People</a><br><br>
+					<a href="/shop/">Shop</a><br><br>
+					<a href="http://forum.processing.org"class="outward"><span>&raquo;</span>Forum</a><br> 
+					<a href="https://github.com/processing"class="outward"><span>&raquo;</span>GitHub</a><br> 
+					<a href="https://github.com/processing/processing/issues?state=open"class="outward"><span>&raquo;</span>Issues</a><br> 
+					<a href="https://github.com/processing/processing/wiki/"class="outward"><span>&raquo;</span>Wiki</a><br> 
+					<a href="https://github.com/processing/processing/wiki/FAQ"class="outward"><span>&raquo;</span>FAQ</a><br> 
+					<a href="https://twitter.com/processingOrg"class="outward"><span>&raquo;</span>Twitter</a><br> 
+					<a href="https://www.facebook.com/page.processing"class="outward"><span>&raquo;</span>Facebook</a><br> 
+					<a href="https://medium.com/@ProcessingOrg"class="outward"><span>&raquo;</span>Medium</a><br> 
+				</div>
+			</div>
+
+
+			<!-- ==================================== CONTENT ============================ -->
+			<div class="content">
+			
+			 
+<div class="examples-nav"><a href="/examples/"><img src="/img/back_off.gif" alt="Back to List" /> <span class="back-to">Back To List</span></a>
+</div>
+
+<p class="ref-notice">
+	This example is for Processing 3+. If you have a previous version, use the examples included with your software. If you see any errors or have suggestions, <a href="https://github.com/processing/processing-docs/issues?state=open">please let us know</a>.
+</p>
+<script src="../javascript/p5.min.js" type="text/javascript"></script>
+<script src="../javascript/p5.dom.min.js" type="text/javascript"></script>
+
+
+<div class="example">
+<div id="p5container"></div><script type="text/javascript">/**
+ * LoadFile 2
+ * 
+ * This example loads a data file about cars. Each element is separated
+ * with a tab and corresponds to a different aspect of each car. The file stores 
+ * the miles per gallon, cylinders, displacement, etc., for more than 400 different
+ * makes and models. Press a mouse button to advance to the next group of entries.
+ */
+
+var records;
+var lines;
+var recordCount = 0;
+var num = 9; // Display this many entries on each screen.
+var startingEntry = 0;  // Display from this entry number
+
+function preload() {
+  lines = loadStrings("cars2.tsv");
+}
+
+function setup() {
+  var canvas = createCanvas(200, 200);
+  canvas.parent("p5container");
+  fill(255);
+  noLoop();
+  
+  textFont('TheSans');
+  
+  records = new Array(lines.length);
+  for (var i = 0; i < lines.length; i++) {
+    var pieces = split(lines[i], '\t'); // Load data into array
+    if (pieces.length == 9) {
+      records[recordCount] = new Record(pieces);
+      recordCount++;
+    }
+  }
+  if (recordCount != records.length) {
+    //records = (Record[]) subset(records, 0, recordCount);
+  }
+}
+
+function draw() {
+  background(0);
+  for (var i = 0; i < num; i++) {
+    var thisEntry = startingEntry + i;
+    if (thisEntry < recordCount) {
+      fill(255);
+      noStroke();
+      text(thisEntry + " > " + records[thisEntry].name, 20, 20 + i*20);
+    }
+  }
+}
+
+function mousePressed() {
+  startingEntry += num; 
+  if (startingEntry > records.length) {
+    startingEntry = 0;  // go back to the beginning
+  } 
+  redraw();
+}
+
+
+
+
+
+function Record(pieces) {
+  this.name = pieces[0];
+  this.mpg = float(pieces[1]);
+  this.cylinders = int(pieces[2]);
+  this.displacement = float(pieces[3]);
+  this.horsepower = float(pieces[4]);
+  this.weight = float(pieces[5]);
+  this.acceleration = float(pieces[6]);
+  this.year = int(pieces[7]);
+  this.origin = float(pieces[8]);
+}
+</script>
+<p class="doc"><strong>LoadFile 2</strong> <br />
+<br />
+ This example loads a data file about cars. Each element is separated with a tab and corresponds to a different aspect of each car. The file stores the miles per gallon, cylinders, displacement, etc., for more than 400 different makes and models. Press a mouse button to advance to the next group of entries.</p>
+
+<pre class="code">
+
+Record[] records;
+String[] lines;
+int recordCount;
+PFont body;
+int num = 9; // Display this many entries on each screen.
+int startingEntry = 0;  // Display from this entry number
+
+void setup() {
+  size(200, 200);
+  fill(255);
+  noLoop();
+  
+  body = loadFont(&quot;TheSans-Plain-12.vlw&quot;);
+  textFont(body);
+  
+  lines = loadStrings(&quot;cars2.tsv&quot;);
+  records = new Record[lines.length];
+  for (int i = 0; i &lt; lines.length; i++) {
+    String[] pieces = split(lines[i], TAB); // Load data into array
+    if (pieces.length == 9) {
+      records[recordCount] = new Record(pieces);
+      recordCount++;
+    }
+  }
+  if (recordCount != records.length) {
+    records = (Record[]) subset(records, 0, recordCount);
+  }
+}
+
+void draw() {
+  background(0);
+  for (int i = 0; i &lt; num; i++) {
+    int thisEntry = startingEntry + i;
+    if (thisEntry &lt; recordCount) {
+      text(thisEntry + &quot; &gt; &quot; + records[thisEntry].name, 20, 20 + i*20);
+    }
+  }
+}
+
+void mousePressed() {
+  startingEntry += num; 
+  if (startingEntry &gt; records.length) {
+    startingEntry = 0;  // go back to the beginning
+  } 
+  redraw();
+}
+
+
+
+class Record {
+  String name;
+  float mpg;
+  int cylinders;
+  float displacement;
+  float horsepower;
+  float weight;
+  float acceleration;
+  int year;
+  float origin;
+
+  public Record(String[] pieces) {
+    name = pieces[0];
+    mpg = float(pieces[1]);
+    cylinders = int(pieces[2]);
+    displacement = float(pieces[3]);
+    horsepower = float(pieces[4]);
+    weight = float(pieces[5]);
+    acceleration = float(pieces[6]);
+    year = int(pieces[7]);
+    origin = float(pieces[8]);
+  }
+}
+</pre>
+
+
+</div>
+
+
+			
+			</div>
+
+			<!-- ==================================== FOOTER ============================ --> 
+  			<div id="footer">
+    			<div id="copyright">Processing was initiated by <a href="http://benfry.com/">Ben Fry</a> and <a href="http://reas.com">Casey Reas</a>. It is developed by a <a href="/people/">small team of volunteers</a>.</div> 
+    			<div id="colophon">
+
+                    <a href="/copyright.html">&copy; Info</a>
+
+                </div>
+  			</div>
+  			
+		</div>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="../javascript/jquery-1.9.1.min.js"><\/script>')</script>
+		<script src="../javascript/site.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-40016511-1']);
+		  _gaq.push(['_setDomainName', 'processing.org']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+	</body>
+</html>

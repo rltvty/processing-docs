@@ -1,0 +1,322 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Morph \ Examples \ Processing.org</title>
+		
+		<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="Author" content="Processing Foundation" />
+		<meta name="Publisher" content="Processing Foundation" />
+		<meta name="Keywords" content="Processing, Sketchbook, Programming, Coding, Code, Art, Design" />
+		<meta name="Description" content="Processing is a flexible software sketchbook and a language for learning how to code within the context of the visual arts. Since 2001, Processing has promoted software literacy within the visual arts and visual literacy within technology." />
+		<meta name="Copyright" content="All contents copyright the Processing Foundation, Ben Fry, Casey Reas, and the MIT Media Laboratory" />
+	    
+	    <script src="../javascript/modernizr-2.6.2.touch.js" type="text/javascript"></script>
+		<link href="../css/style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body id="Examples" onload="" >
+		
+		<!-- ==================================== PAGE ============================ --> 
+		<div id="container">
+	
+			<!-- ==================================== HEADER ============================ --> 
+			<div id="ribbon">
+				<ul class="left">
+					<li class="highlight"><a href="http://processing.org/">Processing</a></li>
+					<li><a href="http://p5js.org/">p5.js</a></li>
+					<li><a href="http://py.processing.org/">Processing.py</a></li>
+					<li><a href="http://android.processing.org/">Processing for Android</a></li>
+				</ul>
+				<ul class="right">
+					<li><a href="https://processingfoundation.org/">Processing Foundation</a></li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<div id="header">
+				<a href="/" title="Back to the Processing cover."><div class="processing-logo no-cover" alt="Processing cover"></div></a>
+				<form name="search" action="//www.google.com/search" method="get">
+				<!--<label>Search processing.org</label>-->
+				       <p><input type="hidden" name="as_sitesearch" value="processing.org" />
+				       <input type="text" name="as_q" value="" size="20" class="text" /> 
+						<input type="submit" value=" " /></p>
+				</form>
+			</div> 
+			<a id="TOP" name="TOP"></a>
+			
+			<!-- ==================================== NAVIGATION ============================ -->
+						<div id="navigation">
+				<div class="navBar" id="mainnav_noSub">
+					<a href="/">Cover</a><br><br>
+					<a href="/download/">Download</a><br>
+					<a href="/download/support.html">Donate</a><br><br>
+					<a href="/exhibition/">Exhibition</a><br><br>
+					<a href="/reference/">Reference</a><br>
+					<a href="/reference/libraries/">Libraries</a><br>
+					<a href="/reference/tools/">Tools</a><br>
+					<a href="/reference/environment/">Environment</a><br><br>
+					<a href="/tutorials/">Tutorials</a><br>
+					<a href="/examples/" class="active">Examples</a><br>
+					<a href="/books/">Books</a><br>
+					<a href="/handbook/">Handbook</a><br><br />
+					<a href="/overview/">Overview</a><br> 
+					<a href="/people/">People</a><br><br>
+					<a href="/shop/">Shop</a><br><br>
+					<a href="http://forum.processing.org"class="outward"><span>&raquo;</span>Forum</a><br> 
+					<a href="https://github.com/processing"class="outward"><span>&raquo;</span>GitHub</a><br> 
+					<a href="https://github.com/processing/processing/issues?state=open"class="outward"><span>&raquo;</span>Issues</a><br> 
+					<a href="https://github.com/processing/processing/wiki/"class="outward"><span>&raquo;</span>Wiki</a><br> 
+					<a href="https://github.com/processing/processing/wiki/FAQ"class="outward"><span>&raquo;</span>FAQ</a><br> 
+					<a href="https://twitter.com/processingOrg"class="outward"><span>&raquo;</span>Twitter</a><br> 
+					<a href="https://www.facebook.com/page.processing"class="outward"><span>&raquo;</span>Facebook</a><br> 
+					<a href="https://medium.com/@ProcessingOrg"class="outward"><span>&raquo;</span>Medium</a><br> 
+				</div>
+			</div>
+
+
+			<!-- ==================================== CONTENT ============================ -->
+			<div class="content">
+			
+			 
+<div class="examples-nav"><a href="/examples/"><img src="/img/back_off.gif" alt="Back to List" /> <span class="back-to">Back To List</span></a>
+</div>
+
+<p class="ref-notice">
+	This example is for Processing 3+. If you have a previous version, use the examples included with your software. If you see any errors or have suggestions, <a href="https://github.com/processing/processing-docs/issues?state=open">please let us know</a>.
+</p>
+<script src="../javascript/p5.min.js" type="text/javascript"></script>
+<script src="../javascript/p5.dom.min.js" type="text/javascript"></script>
+
+
+<div class="example">
+<div id="p5container"></div><script type="text/javascript">/**
+ * Morph. 
+ * 
+ * Changing one shape into another by interpolating
+ * vertices from one to another
+ */
+
+// Two ArrayLists to store the vertices for two shapes
+// This example assumes that each shape will have the same
+// number of vertices, i.e. the size of each ArrayList will be the same
+var circle = [];
+var square = [];
+
+// An ArrayList for a third set of vertices, the ones we will be drawing
+// in the window
+var morph = [];
+
+// This boolean variable will control if we are morphing to a circle or square
+var state = false;
+
+function setup() {
+  var canvas = createCanvas(640, 360);
+  canvas.parent("p5container");
+
+  // Create a circle using vectors pointing from center
+  for (var angle = 0; angle < 360; angle += 9) {
+    // Note we are not starting from 0 in order to match the
+    // path of a circle.  
+    var v = p5.Vector.fromAngle(radians(angle-135));
+    v.mult(100);
+    circle.push(v);
+    // Let's fill out morph ArrayList with blank p5.Vectors while we are at it
+    morph.push(createVector());
+  }
+
+  // A square is a bunch of vertices along straight lines
+  // Top of square
+  for (var x = -50; x < 50; x += 10) {
+    square.push(new p5.Vector(x, -50));
+  }
+  // Right side
+  for (var y = -50; y < 50; y += 10) {
+    square.push(new p5.Vector(50, y));
+  }
+  // Bottom
+  for (var x = 50; x > -50; x -= 10) {
+    square.push(new p5.Vector(x, 50));
+  }
+  // Left side
+  for (var y = 50; y > -50; y -= 10) {
+    square.push(new p5.Vector(-50, y));
+  }
+}
+
+function draw() {
+  background(51);
+
+  // We will keep how far the vertices are from their target
+  var totalDistance = 0;
+  
+  // Look at each vertex
+  for (var i = 0; i < circle.length; i++) {
+    var v1;
+    // Are we lerping to the circle or square?
+    if (state) {
+      v1 = circle[i];
+    }
+    else {
+      v1 = square[i];
+    }
+    // Get the vertex we will draw
+    var v2 = morph[i];
+    // Lerp to the target
+    v2.lerp(v1, 0.1);
+    // Check how far we are from target
+    totalDistance += p5.Vector.dist(v1, v2);
+  }
+  
+  // If all the vertices are close, switch shape
+  if (totalDistance < 0.1) {
+    state = !state;
+  }
+  
+  // Draw relative to center
+  translate(width/2, height/2);
+  strokeWeight(4);
+  // Draw a polygon that makes up all the vertices
+  beginShape();
+  noFill();
+  stroke(255);
+  for (var i = 0; i < morph.length; i++) {
+    var v = morph[i];
+    vertex(v.x, v.y);
+  }
+  endShape(CLOSE);
+}
+
+</script>
+<p class="doc"><strong>Morph.</strong> <br />
+<br />
+ Changing one shape into another by interpolating vertices from one to another</p>
+
+<pre class="code">
+
+// Two ArrayLists to store the vertices for two shapes
+// This example assumes that each shape will have the same
+// number of vertices, i.e. the size of each ArrayList will be the same
+ArrayList&lt;PVector&gt; circle = new ArrayList&lt;PVector&gt;();
+ArrayList&lt;PVector&gt; square = new ArrayList&lt;PVector&gt;();
+
+// An ArrayList for a third set of vertices, the ones we will be drawing
+// in the window
+ArrayList&lt;PVector&gt; morph = new ArrayList&lt;PVector&gt;();
+
+// This boolean variable will control if we are morphing to a circle or square
+boolean state = false;
+
+void setup() {
+  size(640, 360);
+
+  // Create a circle using vectors pointing from center
+  for (int angle = 0; angle &lt; 360; angle += 9) {
+    // Note we are not starting from 0 in order to match the
+    // path of a circle.  
+    PVector v = PVector.fromAngle(radians(angle-135));
+    v.mult(100);
+    circle.add(v);
+    // Let's fill out morph ArrayList with blank PVectors while we are at it
+    morph.add(new PVector());
+  }
+
+  // A square is a bunch of vertices along straight lines
+  // Top of square
+  for (int x = -50; x &lt; 50; x += 10) {
+    square.add(new PVector(x, -50));
+  }
+  // Right side
+  for (int y = -50; y &lt; 50; y += 10) {
+    square.add(new PVector(50, y));
+  }
+  // Bottom
+  for (int x = 50; x &gt; -50; x -= 10) {
+    square.add(new PVector(x, 50));
+  }
+  // Left side
+  for (int y = 50; y &gt; -50; y -= 10) {
+    square.add(new PVector(-50, y));
+  }
+}
+
+void draw() {
+  background(51);
+
+  // We will keep how far the vertices are from their target
+  float totalDistance = 0;
+  
+  // Look at each vertex
+  for (int i = 0; i &lt; circle.size(); i++) {
+    PVector v1;
+    // Are we lerping to the circle or square?
+    if (state) {
+      v1 = circle.get(i);
+    }
+    else {
+      v1 = square.get(i);
+    }
+    // Get the vertex we will draw
+    PVector v2 = morph.get(i);
+    // Lerp to the target
+    v2.lerp(v1, 0.1);
+    // Check how far we are from target
+    totalDistance += PVector.dist(v1, v2);
+  }
+  
+  // If all the vertices are close, switch shape
+  if (totalDistance &lt; 0.1) {
+    state = !state;
+  }
+  
+  // Draw relative to center
+  translate(width/2, height/2);
+  strokeWeight(4);
+  // Draw a polygon that makes up all the vertices
+  beginShape();
+  noFill();
+  stroke(255);
+  for (PVector v : morph) {
+    vertex(v.x, v.y);
+  }
+  endShape(CLOSE);
+}
+
+</pre>
+
+
+</div>
+
+
+			
+			</div>
+
+			<!-- ==================================== FOOTER ============================ --> 
+  			<div id="footer">
+    			<div id="copyright">Processing was initiated by <a href="http://benfry.com/">Ben Fry</a> and <a href="http://reas.com">Casey Reas</a>. It is developed by a <a href="/people/">small team of volunteers</a>.</div> 
+    			<div id="colophon">
+
+                    <a href="/copyright.html">&copy; Info</a>
+
+                </div>
+  			</div>
+  			
+		</div>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="../javascript/jquery-1.9.1.min.js"><\/script>')</script>
+		<script src="../javascript/site.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-40016511-1']);
+		  _gaq.push(['_setDomainName', 'processing.org']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+	</body>
+</html>

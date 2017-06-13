@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>OperatorPrecedence \ Examples \ Processing.org</title>
+		
+		<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="Author" content="Processing Foundation" />
+		<meta name="Publisher" content="Processing Foundation" />
+		<meta name="Keywords" content="Processing, Sketchbook, Programming, Coding, Code, Art, Design" />
+		<meta name="Description" content="Processing is a flexible software sketchbook and a language for learning how to code within the context of the visual arts. Since 2001, Processing has promoted software literacy within the visual arts and visual literacy within technology." />
+		<meta name="Copyright" content="All contents copyright the Processing Foundation, Ben Fry, Casey Reas, and the MIT Media Laboratory" />
+	    
+	    <script src="../javascript/modernizr-2.6.2.touch.js" type="text/javascript"></script>
+		<link href="../css/style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body id="Examples" onload="" >
+		
+		<!-- ==================================== PAGE ============================ --> 
+		<div id="container">
+	
+			<!-- ==================================== HEADER ============================ --> 
+			<div id="ribbon">
+				<ul class="left">
+					<li class="highlight"><a href="http://processing.org/">Processing</a></li>
+					<li><a href="http://p5js.org/">p5.js</a></li>
+					<li><a href="http://py.processing.org/">Processing.py</a></li>
+					<li><a href="http://android.processing.org/">Processing for Android</a></li>
+				</ul>
+				<ul class="right">
+					<li><a href="https://processingfoundation.org/">Processing Foundation</a></li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<div id="header">
+				<a href="/" title="Back to the Processing cover."><div class="processing-logo no-cover" alt="Processing cover"></div></a>
+				<form name="search" action="//www.google.com/search" method="get">
+				<!--<label>Search processing.org</label>-->
+				       <p><input type="hidden" name="as_sitesearch" value="processing.org" />
+				       <input type="text" name="as_q" value="" size="20" class="text" /> 
+						<input type="submit" value=" " /></p>
+				</form>
+			</div> 
+			<a id="TOP" name="TOP"></a>
+			
+			<!-- ==================================== NAVIGATION ============================ -->
+						<div id="navigation">
+				<div class="navBar" id="mainnav_noSub">
+					<a href="/">Cover</a><br><br>
+					<a href="/download/">Download</a><br>
+					<a href="/download/support.html">Donate</a><br><br>
+					<a href="/exhibition/">Exhibition</a><br><br>
+					<a href="/reference/">Reference</a><br>
+					<a href="/reference/libraries/">Libraries</a><br>
+					<a href="/reference/tools/">Tools</a><br>
+					<a href="/reference/environment/">Environment</a><br><br>
+					<a href="/tutorials/">Tutorials</a><br>
+					<a href="/examples/" class="active">Examples</a><br>
+					<a href="/books/">Books</a><br>
+					<a href="/handbook/">Handbook</a><br><br />
+					<a href="/overview/">Overview</a><br> 
+					<a href="/people/">People</a><br><br>
+					<a href="/shop/">Shop</a><br><br>
+					<a href="http://forum.processing.org"class="outward"><span>&raquo;</span>Forum</a><br> 
+					<a href="https://github.com/processing"class="outward"><span>&raquo;</span>GitHub</a><br> 
+					<a href="https://github.com/processing/processing/issues?state=open"class="outward"><span>&raquo;</span>Issues</a><br> 
+					<a href="https://github.com/processing/processing/wiki/"class="outward"><span>&raquo;</span>Wiki</a><br> 
+					<a href="https://github.com/processing/processing/wiki/FAQ"class="outward"><span>&raquo;</span>FAQ</a><br> 
+					<a href="https://twitter.com/processingOrg"class="outward"><span>&raquo;</span>Twitter</a><br> 
+					<a href="https://www.facebook.com/page.processing"class="outward"><span>&raquo;</span>Facebook</a><br> 
+					<a href="https://medium.com/@ProcessingOrg"class="outward"><span>&raquo;</span>Medium</a><br> 
+				</div>
+			</div>
+
+
+			<!-- ==================================== CONTENT ============================ -->
+			<div class="content">
+			
+			 
+<div class="examples-nav"><a href="/examples/"><img src="/img/back_off.gif" alt="Back to List" /> <span class="back-to">Back To List</span></a>
+</div>
+
+<p class="ref-notice">
+	This example is for Processing 3+. If you have a previous version, use the examples included with your software. If you see any errors or have suggestions, <a href="https://github.com/processing/processing-docs/issues?state=open">please let us know</a>.
+</p>
+<script src="../javascript/p5.min.js" type="text/javascript"></script>
+<script src="../javascript/p5.dom.min.js" type="text/javascript"></script>
+
+
+<div class="example">
+<div id="p5container"></div><script type="text/javascript">/**
+ * Operator Precedence
+ * 
+ * If you don't explicitly state the order in which
+ * an expression is evaluated, they are evaluated based
+ * on the operator precedence. For example, in the statement
+ * "4+2*8", the 2 will first be multiplied by 8 and then the result will
+ * be added to 4. This is because the "*" has a higher precedence
+ * than the "+". To avoid ambiguity in reading the program, 
+ * it is recommended that is statement is written as "4+(2*8)".
+ * The order of evaluation can be controlled through placement of
+ * parenthesis in the code. A table of operator precedence follows below.
+ * 
+ */
+ 
+// The highest precedence is at the top of the list and 
+// the lowest is at the bottom.
+// Multiplicative: * / %
+// Additive: + -
+// Relational: < > <= >=
+// Equality: == !=
+// Logical AND: &&
+// Logical OR: ||
+// Assignment: = += -= *= /= %=
+
+function setup() {
+  var canvas = createCanvas(640, 360);
+  canvas.parent("p5container");
+  background(51);
+  noFill();
+  stroke(51);
+
+  stroke(204);
+  for(var i=0; i< width-20; i+= 4) {
+    // The 30 is added to 70 and then evaluated
+    // if it is greater than the current value of "i"
+    // For clarity, write as "if (i > (30 + 70)) {"
+    if (i > 30 + 70) {
+      line(i, 0, i, 50);
+    }
+  }
+
+  stroke(255);
+  // The 2 is multiplied by the 8 and the result is added to the 4
+  // For clarity, write as "rect(5 + (2 * 8), 0, 90, 20);"
+  rect(4 + 2 * 8, 52, 290, 48);
+  rect((4 + 2) * 8, 100, 290, 49);
+    
+  stroke(153);
+  for (var i = 0; i < width; i+= 2) {
+    // The relational statements are evaluated 
+    // first, and then the logical AND statements and 
+    // finally the logical OR. For clarity, write as:
+    // "if(((i > 20) && (i < 50)) || ((i > 100) && (i < width-20))) {"
+    if (i > 20 && i < 50 || i > 100 && i < width-20) {
+      line(i, 151, i, height-1);
+    } 
+  }
+}
+
+
+</script>
+<p class="doc"><strong>Operator Precedence</strong> <br />
+<br />
+ If you don't explicitly state the order in which an expression is evaluated, they are evaluated based on the operator precedence. For example, in the statement "4+2*8", the 2 will first be multiplied by 8 and then the result will be added to 4. This is because the "*" has a higher precedence than the "+". To avoid ambiguity in reading the program, it is recommended that is statement is written as "4+(2*8)". The order of evaluation can be controlled through placement of parenthesis in the code. A table of operator precedence follows below. <br />
+<br />
+</p>
+
+<pre class="code">
+ 
+// The highest precedence is at the top of the list and 
+// the lowest is at the bottom.
+// Multiplicative: * / %
+// Additive: + -
+// Relational: &lt; &gt; &lt;= &gt;=
+// Equality: == !=
+// Logical AND: &amp;&amp;
+// Logical OR: ||
+// Assignment: = += -= *= /= %=
+
+size(640, 360);
+background(51);
+noFill();
+stroke(51);
+
+stroke(204);
+for(int i=0; i&lt; width-20; i+= 4) {
+  // The 30 is added to 70 and then evaluated
+  // if it is greater than the current value of &quot;i&quot;
+  // For clarity, write as &quot;if (i &gt; (30 + 70)) {&quot;
+  if (i &gt; 30 + 70) {
+    line(i, 0, i, 50);
+  }
+}
+
+stroke(255);
+// The 2 is multiplied by the 8 and the result is added to the 4
+// For clarity, write as &quot;rect(5 + (2 * 8), 0, 90, 20);&quot;
+rect(4 + 2 * 8, 52, 290, 48);
+rect((4 + 2) * 8, 100, 290, 49);
+  
+stroke(153);
+for (int i = 0; i &lt; width; i+= 2) {
+  // The relational statements are evaluated 
+  // first, and then the logical AND statements and 
+  // finally the logical OR. For clarity, write as:
+  // &quot;if(((i &gt; 20) &amp;&amp; (i &lt; 50)) || ((i &gt; 100) &amp;&amp; (i &lt; width-20))) {&quot;
+  if (i &gt; 20 &amp;&amp; i &lt; 50 || i &gt; 100 &amp;&amp; i &lt; width-20) {
+    line(i, 151, i, height-1);
+  } 
+}
+
+
+</pre>
+
+
+</div>
+
+
+			
+			</div>
+
+			<!-- ==================================== FOOTER ============================ --> 
+  			<div id="footer">
+    			<div id="copyright">Processing was initiated by <a href="http://benfry.com/">Ben Fry</a> and <a href="http://reas.com">Casey Reas</a>. It is developed by a <a href="/people/">small team of volunteers</a>.</div> 
+    			<div id="colophon">
+
+                    <a href="/copyright.html">&copy; Info</a>
+
+                </div>
+  			</div>
+  			
+		</div>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="../javascript/jquery-1.9.1.min.js"><\/script>')</script>
+		<script src="../javascript/site.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-40016511-1']);
+		  _gaq.push(['_setDomainName', 'processing.org']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+	</body>
+</html>

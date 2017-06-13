@@ -1,0 +1,374 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Scrollbar \ Examples \ Processing.org</title>
+		
+		<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="Author" content="Processing Foundation" />
+		<meta name="Publisher" content="Processing Foundation" />
+		<meta name="Keywords" content="Processing, Sketchbook, Programming, Coding, Code, Art, Design" />
+		<meta name="Description" content="Processing is a flexible software sketchbook and a language for learning how to code within the context of the visual arts. Since 2001, Processing has promoted software literacy within the visual arts and visual literacy within technology." />
+		<meta name="Copyright" content="All contents copyright the Processing Foundation, Ben Fry, Casey Reas, and the MIT Media Laboratory" />
+	    
+	    <script src="../javascript/modernizr-2.6.2.touch.js" type="text/javascript"></script>
+		<link href="../css/style.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body id="Examples" onload="" >
+		
+		<!-- ==================================== PAGE ============================ --> 
+		<div id="container">
+	
+			<!-- ==================================== HEADER ============================ --> 
+			<div id="ribbon">
+				<ul class="left">
+					<li class="highlight"><a href="http://processing.org/">Processing</a></li>
+					<li><a href="http://p5js.org/">p5.js</a></li>
+					<li><a href="http://py.processing.org/">Processing.py</a></li>
+					<li><a href="http://android.processing.org/">Processing for Android</a></li>
+				</ul>
+				<ul class="right">
+					<li><a href="https://processingfoundation.org/">Processing Foundation</a></li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+			<div id="header">
+				<a href="/" title="Back to the Processing cover."><div class="processing-logo no-cover" alt="Processing cover"></div></a>
+				<form name="search" action="//www.google.com/search" method="get">
+				<!--<label>Search processing.org</label>-->
+				       <p><input type="hidden" name="as_sitesearch" value="processing.org" />
+				       <input type="text" name="as_q" value="" size="20" class="text" /> 
+						<input type="submit" value=" " /></p>
+				</form>
+			</div> 
+			<a id="TOP" name="TOP"></a>
+			
+			<!-- ==================================== NAVIGATION ============================ -->
+						<div id="navigation">
+				<div class="navBar" id="mainnav_noSub">
+					<a href="/">Cover</a><br><br>
+					<a href="/download/">Download</a><br>
+					<a href="/download/support.html">Donate</a><br><br>
+					<a href="/exhibition/">Exhibition</a><br><br>
+					<a href="/reference/">Reference</a><br>
+					<a href="/reference/libraries/">Libraries</a><br>
+					<a href="/reference/tools/">Tools</a><br>
+					<a href="/reference/environment/">Environment</a><br><br>
+					<a href="/tutorials/">Tutorials</a><br>
+					<a href="/examples/" class="active">Examples</a><br>
+					<a href="/books/">Books</a><br>
+					<a href="/handbook/">Handbook</a><br><br />
+					<a href="/overview/">Overview</a><br> 
+					<a href="/people/">People</a><br><br>
+					<a href="/shop/">Shop</a><br><br>
+					<a href="http://forum.processing.org"class="outward"><span>&raquo;</span>Forum</a><br> 
+					<a href="https://github.com/processing"class="outward"><span>&raquo;</span>GitHub</a><br> 
+					<a href="https://github.com/processing/processing/issues?state=open"class="outward"><span>&raquo;</span>Issues</a><br> 
+					<a href="https://github.com/processing/processing/wiki/"class="outward"><span>&raquo;</span>Wiki</a><br> 
+					<a href="https://github.com/processing/processing/wiki/FAQ"class="outward"><span>&raquo;</span>FAQ</a><br> 
+					<a href="https://twitter.com/processingOrg"class="outward"><span>&raquo;</span>Twitter</a><br> 
+					<a href="https://www.facebook.com/page.processing"class="outward"><span>&raquo;</span>Facebook</a><br> 
+					<a href="https://medium.com/@ProcessingOrg"class="outward"><span>&raquo;</span>Medium</a><br> 
+				</div>
+			</div>
+
+
+			<!-- ==================================== CONTENT ============================ -->
+			<div class="content">
+			
+			 
+<div class="examples-nav"><a href="/examples/"><img src="/img/back_off.gif" alt="Back to List" /> <span class="back-to">Back To List</span></a>
+</div>
+
+<p class="ref-notice">
+	This example is for Processing 3+. If you have a previous version, use the examples included with your software. If you see any errors or have suggestions, <a href="https://github.com/processing/processing-docs/issues?state=open">please let us know</a>.
+</p>
+<script src="../javascript/p5.min.js" type="text/javascript"></script>
+<script src="../javascript/p5.dom.min.js" type="text/javascript"></script>
+
+
+<div class="example">
+<div id="p5container"></div><script type="text/javascript">/**
+ * Scrollbar. 
+ * 
+ * Move the scrollbars left and right to change the positions of the images. 
+ */
+
+
+// The next line is needed if running in JavaScript Mode with Processing.js
+/* @pjs preload="seedTop.jpg,seedBottom.jpg"; */ 
+
+
+var hs1, hs2;  // Two scrollbars
+var img1, img2;  // Two images to load
+
+function preload() {
+  // Load images
+  img1 = loadImage("seedTop.jpg");
+  img2 = loadImage("seedBottom.jpg");
+}
+
+function setup() {
+  var canvas = createCanvas(640, 360);
+  canvas.parent("p5container");
+  noStroke();
+  
+  hs1 = new HScrollbar(0, height/2-8, width, 16, 16);
+  hs2 = new HScrollbar(0, height/2+8, width, 16, 16);
+  
+}
+
+function draw() {
+  background(255);
+  
+  // Get the position of the img1 scrollbar
+  // and convert to a value to display the img1 image 
+  var img1Pos = hs1.getPos()-width/2;
+  fill(255);
+  image(img1, width/2-img1.width/2 + img1Pos*1.5, 0);
+  
+  // Get the position of the img2 scrollbar
+  // and convert to a value to display the img2 image
+  var img2Pos = hs2.getPos()-width/2;
+  fill(255);
+  image(img2, width/2-img2.width/2 + img2Pos*1.5, height/2);
+ 
+  hs1.update();
+  hs2.update();
+  hs1.display();
+  hs2.display();
+  
+  stroke(0);
+  line(0, height/2, width, height/2);
+}
+
+
+  function HScrollbar (xp, yp, sw, sh, l) {
+    this.swidth = sw;// width and height of bar
+    this.sheight = sh;
+    var widthtoheight = sw - sh;
+    this.ratio = sw / widthtoheight;
+    this.xpos = xp;// x and y position of bar
+    this.ypos = yp-this.sheight/2;
+    this.spos = this.xpos + this.swidth/2 - this.sheight/2;// x position of slider
+    this.newspos = this.spos;
+    this.sposMin = this.xpos;// max and min values of slider
+    this.sposMax = this.xpos + this.swidth - this.sheight;
+    this.loose = l;// how loose/heavy
+    this.over = false; // is the mouse over the slider?
+    this.locked = false;
+  
+
+  this.update = function() {
+    if (this.overEvent()) {
+      this.over = true;
+    } else {
+      this.over = false;
+    }
+    if (mouseIsPressed && this.over) {
+      this.locked = true;
+    }
+    if (!mouseIsPressed) {
+      this.locked = false;
+    }
+    if (this.locked) {
+      this.newspos = constrain(mouseX-this.sheight/2, this.sposMin, this.sposMax);
+    }
+    if (abs(this.newspos - this.spos) > 1) {
+      this.spos = this.spos + (this.newspos-this.spos)/this.loose;
+    }
+  }
+
+  this.constrain = function(val, minv, maxv) {
+    return min(max(val, minv), maxv);
+  }
+
+  this.overEvent = function() {
+    if (mouseX > this.xpos && mouseX < this.xpos+this.swidth &&
+       mouseY > this.ypos && mouseY < this.ypos+this.sheight) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+   this.display = function() {
+    noStroke();
+    fill(204);
+    rect(this.xpos, this.ypos, this.swidth, this.sheight);
+    if (this.over || this.locked) {
+      fill(0, 0, 0);
+    } else {
+      fill(102, 102, 102);
+    }
+    rect(this.spos, this.ypos, this.sheight, this.sheight);
+  }
+
+  this.getPos = function() {
+    // Convert spos to be values between
+    // 0 and the total width of the scrollbar
+    return this.spos * this.ratio;
+  }
+}
+</script>
+<p class="doc"><strong>Scrollbar.</strong> <br />
+<br />
+ Move the scrollbars left and right to change the positions of the images.</p>
+
+<pre class="code">
+
+HScrollbar hs1, hs2;  // Two scrollbars
+PImage img1, img2;  // Two images to load
+
+void setup() {
+  size(640, 360);
+  noStroke();
+  
+  hs1 = new HScrollbar(0, height/2-8, width, 16, 16);
+  hs2 = new HScrollbar(0, height/2+8, width, 16, 16);
+  
+  // Load images
+  img1 = loadImage(&quot;seedTop.jpg&quot;);
+  img2 = loadImage(&quot;seedBottom.jpg&quot;);
+}
+
+void draw() {
+  background(255);
+  
+  // Get the position of the img1 scrollbar
+  // and convert to a value to display the img1 image 
+  float img1Pos = hs1.getPos()-width/2;
+  fill(255);
+  image(img1, width/2-img1.width/2 + img1Pos*1.5, 0);
+  
+  // Get the position of the img2 scrollbar
+  // and convert to a value to display the img2 image
+  float img2Pos = hs2.getPos()-width/2;
+  fill(255);
+  image(img2, width/2-img2.width/2 + img2Pos*1.5, height/2);
+ 
+  hs1.update();
+  hs2.update();
+  hs1.display();
+  hs2.display();
+  
+  stroke(0);
+  line(0, height/2, width, height/2);
+}
+
+
+class HScrollbar {
+  int swidth, sheight;    // width and height of bar
+  float xpos, ypos;       // x and y position of bar
+  float spos, newspos;    // x position of slider
+  float sposMin, sposMax; // max and min values of slider
+  int loose;              // how loose/heavy
+  boolean over;           // is the mouse over the slider?
+  boolean locked;
+  float ratio;
+
+  HScrollbar (float xp, float yp, int sw, int sh, int l) {
+    swidth = sw;
+    sheight = sh;
+    int widthtoheight = sw - sh;
+    ratio = (float)sw / (float)widthtoheight;
+    xpos = xp;
+    ypos = yp-sheight/2;
+    spos = xpos + swidth/2 - sheight/2;
+    newspos = spos;
+    sposMin = xpos;
+    sposMax = xpos + swidth - sheight;
+    loose = l;
+  }
+
+  void update() {
+    if (overEvent()) {
+      over = true;
+    } else {
+      over = false;
+    }
+    if (mousePressed &amp;&amp; over) {
+      locked = true;
+    }
+    if (!mousePressed) {
+      locked = false;
+    }
+    if (locked) {
+      newspos = constrain(mouseX-sheight/2, sposMin, sposMax);
+    }
+    if (abs(newspos - spos) &gt; 1) {
+      spos = spos + (newspos-spos)/loose;
+    }
+  }
+
+  float constrain(float val, float minv, float maxv) {
+    return min(max(val, minv), maxv);
+  }
+
+  boolean overEvent() {
+    if (mouseX &gt; xpos &amp;&amp; mouseX &lt; xpos+swidth &amp;&amp;
+       mouseY &gt; ypos &amp;&amp; mouseY &lt; ypos+sheight) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void display() {
+    noStroke();
+    fill(204);
+    rect(xpos, ypos, swidth, sheight);
+    if (over || locked) {
+      fill(0, 0, 0);
+    } else {
+      fill(102, 102, 102);
+    }
+    rect(spos, ypos, sheight, sheight);
+  }
+
+  float getPos() {
+    // Convert spos to be values between
+    // 0 and the total width of the scrollbar
+    return spos * ratio;
+  }
+}
+</pre>
+
+
+</div>
+
+
+			
+			</div>
+
+			<!-- ==================================== FOOTER ============================ --> 
+  			<div id="footer">
+    			<div id="copyright">Processing was initiated by <a href="http://benfry.com/">Ben Fry</a> and <a href="http://reas.com">Casey Reas</a>. It is developed by a <a href="/people/">small team of volunteers</a>.</div> 
+    			<div id="colophon">
+
+                    <a href="/copyright.html">&copy; Info</a>
+
+                </div>
+  			</div>
+  			
+		</div>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="../javascript/jquery-1.9.1.min.js"><\/script>')</script>
+		<script src="../javascript/site.js" type="text/javascript"></script>
+		<script type="text/javascript">
+
+		  var _gaq = _gaq || [];
+		  _gaq.push(['_setAccount', 'UA-40016511-1']);
+		  _gaq.push(['_setDomainName', 'processing.org']);
+		  _gaq.push(['_trackPageview']);
+
+		  (function() {
+		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		  })();
+
+		</script>
+	</body>
+</html>
